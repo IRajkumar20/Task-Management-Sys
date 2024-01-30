@@ -1,0 +1,501 @@
+{
+    "components": {
+      "schemas": {
+        "createtaskRequest":{
+            "type":"object",
+            "example":{
+                "name":"",
+                "details":"",
+                "staffID":""
+            }
+        },
+        "addrole":{
+          "type":"object",
+          "example":{
+            "role_name":""
+            
+        }
+        },
+        "addstatus":{
+          "type":"object",
+          "example":{
+            "status_name":""
+            
+        }
+        },
+        "loginRequest": {
+          "type": "object",
+          "example": {
+            "username": "admin",
+            "password": "Pass"
+          }
+        },
+       
+        "createUserRequest": {
+          "type": "object",
+          "example": {
+            "username": "",
+            "password": "",
+            "email":"",
+            "roleID":""
+          }
+        },
+        "adduser": {
+            "type": "object",
+            "example": {
+              "username": "",
+              "email":"",
+              "password": "",
+              "roleID":""
+            }
+          }
+        
+      },
+      "securitySchemes": {
+       
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+       
+      }
+    },
+    "info": {
+      "description": "project Documentation",
+      "version": "1.0.0",
+      "title": "FLASK PROJECT UI OUTLOOK"
+    },
+    "openapi": "3.0.0",
+    "paths": {
+      "/login": {
+        "post": {
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ],
+          "tags": [
+            "Auth Management"
+          ],
+          "summary": "Returns JWT Token if valid user.",
+          "requestBody": {
+            "description": "for authorization.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+             }
+          }
+        }
+      },
+      "/register": {
+        "post": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "User Management"
+          ],
+          "summary": "Create new User.",
+          "requestBody": {
+            "description": "Create new User.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createUserRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+              
+            }
+          }
+        }
+      },
+ 
+      "/token/refresh": {
+        "get": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "Auth Management"
+          ],
+          "summary": "token refresh  details.",
+          
+          "responses": {
+            "200": {
+              "description": "OK"
+              
+            }
+          }
+        }
+      },
+      "/showall":{
+        "get": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "User Management"
+            ],
+            "summary": "Show user data.",
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/show/{id}": {
+        "get": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "User Management"
+            ],
+            "summary": "Show by user id.",
+            "parameters":[
+              {
+                "name":"id",
+                "in":"path",
+                "required":true,
+                "description": "to see specified user",
+                "type":"integer"
+              }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+
+      "/upd/{id}": {
+        "put": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "User Management"
+            ],
+            "summary": "update by user id.",
+            "parameters":[
+              {
+                "name":"id",
+                "in":"path",
+                "required":true,
+                "description": "update user",
+                "type":"integer"
+              }
+            ],
+            "requestBody": {
+              "description": "update user",
+              "required": true,
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "$ref": "#/components/schemas/adduser"
+                      }
+                  }
+              }
+          },
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/del/{id}": {
+        "delete": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "User Management"
+            ],
+            "summary": "delete user by id.",
+            "parameters":[
+              {
+                "name":"id",
+                "in":"path",
+                "required":true,
+                "description": "delete user",
+                "type":"integer"
+              }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/task": {
+        "post": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "Task Management"
+          ],
+          "summary": "assigned new task.",
+          "requestBody": {
+            "description": "assigned new task.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createtaskRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+                "description": "OK"
+            }
+        }
+
+        }    
+    },
+    "/deltask/{id}": {
+        "delete": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "Task Management"
+            ],
+            "summary": "delete task by id.",
+            "parameters":[
+              {
+                "name":"id",
+                "in":"path",
+                "required":true,
+                "description": "delete task",
+                "type":"integer"
+              }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      
+      "/taskupdate/{id}": {
+        "put": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "Task Management"
+            ],
+            "summary": "update by task id.",
+            "parameters":[
+              {
+                "name":"id",
+                "in":"path",
+                "required":true,
+                "description": "update task",
+                "type":"integer"
+              }
+            ],
+            "requestBody": {
+              "description": "update task",
+              "required": true,
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "$ref": "#/components/schemas/createtaskRequest"
+                      }
+                  }
+              }
+          },
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/showtask":{
+        "get": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "Task Management"
+            ],
+            "summary": "Show task details.",
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/showtask/{id}": {
+        "get": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "Task Management"
+            ],
+            "summary": "Show by task id(only admin access).",
+            "parameters":[
+              {
+                "name":"id",
+                "in":"path",
+                "required":true,
+                "description": "to see specified task",
+                "type":"integer"
+              }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/role": {
+        "post": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "Admin Management"
+          ],
+          "summary": "add new role.",
+          "requestBody": {
+            "description": "add new role.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addrole"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+                "description": "OK"
+            }
+        }
+
+        }    
+    },
+      "/showrole":{
+        "get": {
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "tags": [
+                "Admin Management"
+            ],
+            "summary": "Show Role.",
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+      },
+      "/status": {
+        "post": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "Admin Management"
+          ],
+          "summary": "add new status.",
+          "requestBody": {
+            "description": "add new status.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addstatus"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+                "description": "OK"
+            }
+        }
+
+        }    
+    },
+    "/showstatus":{
+      "get": {
+          "security": [
+              {
+                  "bearerAuth": []
+              }
+          ],
+          "tags": [
+              "Admin Management"
+          ],
+          "summary": "Show status.",
+          "responses": {
+              "200": {
+                  "description": "OK"
+              }
+          }
+      }
+    }
+
+    },
+    "swagger": "3.0"
+  }
